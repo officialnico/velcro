@@ -54,3 +54,12 @@ To compare the two runs:
 - the growth rate in the linear phase;
 - ⟨Q_i⟩ and ⟨Q_e⟩ over the same saturated window, for example t ≥ 150 a/v_ti;
 - wall seconds per a/v_ti after the first (compile) interval, on the same GPU, one code at a time.
+
+## A collisional electromagnetic variant
+
+`gkx_cyclone_coll_em.toml` is the same case with collisions and δB∥ added:
+- conserving Dougherty collisions (GKX `lenard_bernstein`; ν_ii 0.01, ν_ee 0.6086 v_ti/a, like-species only);
+- A∥ and δB∥ at β 10⁻³.
+
+E×B flow shear is not part of it: GKX 2.8.1 has no flow-shear option. Velcro's twin, `velcro_cyclone_coll_em.toml`,
+lands in the next commit.
