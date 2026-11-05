@@ -67,7 +67,7 @@ To compare the two runs:
 - conserving Dougherty collisions (GKX `lenard_bernstein`; ν_ii 0.01, ν_ee 0.6086 v_ti/a, like-species only);
 - A∥ and δB∥ at β 10⁻³.
 
-E×B flow shear is not part of it: GKX 2.8.1 has no flow-shear option. Velcro's twin, `velcro_cyclone_coll_em.toml`,
-lands in the next commit.
+E×B flow shear is not part of it: GKX 2.8.1 has no flow-shear option. Velcro's twin is
+`velcro_cyclone_coll_em.toml` (IMEX, adaptive step).
 
 This variant has not been run end to end yet: on a 16 GB GPU, GKX stopped while setting up its implicit step for it.

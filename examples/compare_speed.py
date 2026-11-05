@@ -16,6 +16,7 @@ deck in chunks of simulated time and records the wall clock after every chunk. R
 
     python examples/compare_speed.py --pair ke              # examples/gkx_ke: gkx_cyclone.toml, velcro_cyclone.toml
     python examples/compare_speed.py --pair adiabatic
+    python examples/compare_speed.py --pair coll_em          # collisions + delta-B_par, examples/gkx_ke/*_coll_em.toml
     python examples/compare_speed.py --gkx my.toml --velcro my_velcro.toml --budget 300
 
 Needs GKX 2.8.1 (`import gkx`) and Velcro (`import velcro`) in the Python that runs this script. Velcro's chunks are
@@ -35,6 +36,7 @@ HERE = Path(__file__).resolve().parent
 PAIRS = {
     "ke": (HERE / "gkx_ke" / "gkx_cyclone.toml", HERE / "gkx_ke" / "velcro_cyclone.toml"),
     "adiabatic": (HERE / "gkx_adiabatic" / "gkx_cyclone_adiabatic.toml", HERE / "gkx_adiabatic" / "velcro_cyclone_adiabatic.toml"),
+    "coll_em": (HERE / "gkx_ke" / "gkx_cyclone_coll_em.toml", HERE / "gkx_ke" / "velcro_cyclone_coll_em.toml"),
 }
 TIME_FACTOR = 1.9642   # t[a/v_ti] = TIME_FACTOR * t[R/v_t] for R/a = 2.77778, the examples' geometry
 Q_FACTOR = 0.3666      # Q[GX gyro-Bohm] = Q_FACTOR * Q[Velcro] there: 2 sqrt(2) (a/R)^2 in s-alpha
