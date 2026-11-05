@@ -46,6 +46,11 @@ def elapsed() -> float:
     return time.perf_counter() - T_START
 
 
+def emit(event: dict) -> None:
+    """One line per finished chunk on stdout, for a live display (examples/race.py) to read."""
+    print("RACE " + json.dumps(event), flush=True)
+
+
 # --------------------------------------------------------------------------------------------------------- workers
 def worker_gkx(deck: str, budget: float, chunk: float) -> dict:
     """GKX 2.8.1 through its API: gkx.load, gkx.prepare for one chunk, then the prepared backend chunk after chunk."""
@@ -86,6 +91,8 @@ def worker_gkx(deck: str, budget: float, chunk: float) -> dict:
         qi += q[:, 0].tolist()
         qe += (q[:, 1] if q.shape[1] > 1 else np.full(len(q), np.nan)).tolist()
         rows.append(dict(wall_end=w1, wall=w1 - w0, t_end=t_off))
+        emit(dict(kind="lap", wall_end=w1, t_end=t_off, t=tt.tolist(), qi=q[:, 0].tolist(),
+                  qe=(q[:, 1] if q.shape[1] > 1 else np.full(len(q), np.nan)).tolist()))
         if not np.all(np.isfinite(q)):
             return dict(code="GKX", rows=rows, t=ts, Qi=qi, Qe=qe, import_s=t_imp, stop="non-finite")
         if elapsed() + (w1 - w0) > budget:
@@ -102,7 +109,7 @@ def worker_velcro(config: str, budget: float, chunk: float, time_factor: float, 
     t_imp = elapsed() - t_imp
     sim = Simulation(VelcroConfig.from_file(config))
     hv = chunk / time_factor                 # the chunk in Velcro's time unit
-    rows, t_v = [], 0.0
+    rows, t_v, k0 = [], 0.0, 0
     while True:
         w0 = elapsed()
         t_v += hv
@@ -111,6 +118,13 @@ def worker_velcro(config: str, budget: float, chunk: float, time_factor: float, 
         w1 = elapsed()
         rows.append(dict(wall_end=w1, wall=w1 - w0, t_end=time_factor * float(sim.t)))
         dg = sim.diag.asdict()
+        new_t = time_factor * np.asarray(dg["t"][k0:], dtype=float)
+        new_qi = q_factor * np.asarray(dg["Q"][k0:], dtype=float)
+        new_qe = (q_factor * np.asarray(dg["Qe"][k0:], dtype=float) if "Qe" in dg and len(dg["Qe"]) > k0
+                  else np.full(len(new_t), np.nan))
+        k0 = len(dg["t"])
+        emit(dict(kind="lap", wall_end=w1, t_end=time_factor * float(sim.t), t=new_t.tolist(), qi=new_qi.tolist(),
+                  qe=new_qe.tolist()))
         q_last = dg.get("Q", [np.nan])[-1]
         if not np.isfinite(float(q_last)):
             break

@@ -16,6 +16,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-xdist", "matplotlib"]
 gvec = ["gvec"]
+race = ["rich>=13", "plotext>=5.2,<6", "matplotlib"]
 
 [build-system]
 requires = ["hatchling"]

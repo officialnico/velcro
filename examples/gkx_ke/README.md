@@ -56,6 +56,11 @@ end both codes' heat fluxes over the window they both reached, with a chart (`co
 wall time and the heat fluxes against time. `--pair adiabatic` does the same for
 `examples/gkx_adiabatic`, and `--budget` changes the 3 minutes.
 
+**The race view:** `python examples/race.py` gives a menu of the three cases. It runs GKX, then Velcro, with a live
+terminal display: each car moves along its lane, with its warm-up clock, its pace and charts that update after every
+chunk. It ends on a podium with the same measurements and the heat-flux comparison. Install the display with
+`pip install -e ".[race]"`; `--demo` plays a synthetic race to try the display without a GPU.
+
 To compare the two runs:
 - the growth rate in the linear phase;
 - ⟨Q_i⟩ and ⟨Q_e⟩ over the same saturated window, for example t ≥ 150 a/v_ti;

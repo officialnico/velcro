@@ -157,7 +157,8 @@ rerun with a fixed `numerics.dt` below the first `dt` the adaptive run printed.
 4. One code at a time on the GPU, the same GPU for both, `XLA_PYTHON_CLIENT_PREALLOCATE=false` for both.
 5. The same physical time span and averaging window (here t_GX = 1.9642 t_Velcro).
 6. Speed: `python examples/compare_speed.py --pair ke|adiabatic` runs GKX, then Velcro, each for a 3-minute wall budget
-   (`--budget`), and prints start-up time, wall seconds per a/v_ti and the heat-flux comparison. By hand: wall seconds per unit of
+   (`--budget`), and prints start-up time, wall seconds per a/v_ti and the heat-flux comparison. `python examples/race.py`
+   shows the same race live in the terminal (`pip install -e ".[race]"`). By hand: wall seconds per unit of
    simulated time after the first printed interval (compilation and the first IMEX
    factors), from the printed elapsed times, so do not pass `--quiet`. Divide by (R/a)/√2 for seconds per a/v_ti
    (script below).

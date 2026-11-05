@@ -63,7 +63,7 @@ python -m velcro run examples/cyclone_nonlinear.toml
 ```
 
 For GPUs, install the matching `jax[cuda12]` or `jax[rocm]` wheel. GKX's kinetic-electron example, with a fast fixed-step config,
-is in [`examples/gkx_ke/`](examples/gkx_ke/). Practical settings:
+is in [`examples/gkx_ke/`](examples/gkx_ke/); `python examples/race.py` races the two codes on it live. Practical settings:
 
 - `run.precision = "fp32"` on consumer cards (fp64 runs at 1/64 rate there).
 - `numerics.integrator = "lawson"` with `cfl 1.1` is 2–2.6× faster than RK4 and validated.
