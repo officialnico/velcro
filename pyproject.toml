@@ -3,7 +3,7 @@ name = "velcro"
 version = "0.2.0"
 description = "GPU-native continuum gyrokinetic turbulence code (JAX)"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 authors = [{ name = "Nico Rodriguez" }]
 dependencies = [
     "jax>=0.4.30",

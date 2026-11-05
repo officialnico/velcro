@@ -16,7 +16,7 @@ arrays). A run uses one GPU: multi-GPU is under "Not in this release" in `README
 
 ## Install
 
-From the repository root, with Python ≥ 3.11 (`pyproject.toml`; `tests/fast_tests.json` was measured on Python 3.12):
+From the repository root, with Python ≥ 3.12 (`pyproject.toml`; JAX 0.11.1 has no Python 3.11 build; `tests/fast_tests.json` was measured on Python 3.12):
 
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
