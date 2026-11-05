@@ -1,8 +1,9 @@
 schema_version = 1
 
 # GKX's adiabatic-electron Cyclone case (benchmarks/cases/cyclone_nonlinear_t400.toml of GKX 2.8.1, MIT License,
-# Copyright (c) 2025 UW Plasma), unchanged: kinetic ions, Boltzmann electrons (tau_e 1), electrostatic, 64 x 64 x 24,
-# (Nl, Nm) = (4, 8), rk3 with an adaptive step (dt_max 0.05), to t = 400 a/v_ti. The twin of velcro_cyclone_adiabatic.toml.
+# Copyright (c) 2025 UW Plasma), except the stepping: kinetic ions, Boltzmann electrons (tau_e 1), electrostatic, 64 x 64 x 24,
+# (Nl, Nm) = (4, 8), to t = 400 a/v_ti. Stepping: rk4-pi, GKX's error-controlled RK4 and its default for nonlinear
+# adiabatic runs, with its own step and CFL factor (the benchmark ran rk3, dt_max 0.05, cfl_fac 1). The twin of velcro_cyclone_adiabatic.toml.
 # Box: y0 = 28.2 sets Ly = 2*pi*y0 = 177.19 (the Ly line below is not used), Lx = 176.25, jtwist = 5.
 # Run:  gkx examples/gkx_adiabatic/gkx_cyclone_adiabatic.toml
 [[species]]
@@ -27,17 +28,14 @@ ntheta = 24
 nperiod = 1
 
 [time]
+method = "rk4-pi"
+fixed_dt = false
 # Nonlinear rate kept from GKX < 2.6 (damp_ends_amp = 0.1 read as a rate).
 damp_ends_rate = 0.1
 t_max = 400.0
-dt = 0.01
-method = "rk3"
 sample_stride = 20
 diagnostics_stride = 20
-fixed_dt = false
-dt_max = 0.05
 cfl = 0.9
-cfl_fac = 1.0
 compressed_real_fft = true
 laguerre_nonlinear_mode = "grid"
 

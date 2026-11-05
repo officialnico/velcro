@@ -1,7 +1,7 @@
 # GKX's adiabatic-electron Cyclone case as a native Velcro config, the twin of gkx_cyclone_adiabatic.toml in this folder:
 # kinetic ions, adiabatic (Boltzmann) electrons with tau 1, electrostatic, a/L_T 2.49 and a/L_n 0.8 (Velcro: omega_T 6.92,
 # omega_n 2.22); GKX's box (y0 28.2, L_x 176.25 rho_i, jtwist 5), 64 x 64 x 24, (L, M) = (8, 4) = GKX's (Nm, Nl).
-# Lawson integrator with an adaptive step (CFL 0.9). Velcro's time is R/v_t (t_GX = 1.9642 t); t_end 204 is t = 400 a/v_ti.
+# Lawson integrator with an adaptive step at CFL 1.1, Velcro's fastest validated setting for adiabatic runs. Velcro's time is R/v_t (t_GX = 1.9642 t); t_end 204 is t = 400 a/v_ti.
 # Run:  python -m velcro run examples/gkx_adiabatic/velcro_cyclone_adiabatic.toml --output velcro_cyclone_adiabatic.npz
 [grid]
 Nx = 64
@@ -123,7 +123,7 @@ imex_nl_bound = "sum"
 imex_rate = "bound"
 imex_rate_krylov = 20
 imex_rate_floor = 0.32
-cfl = 0.9
+cfl = 1.1
 cfl_estimate = "legacy"
 dt_max = 0.1
 field_solver = "dense"

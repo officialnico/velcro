@@ -156,7 +156,9 @@ rerun with a fixed `numerics.dt` below the first `dt` the adaptive run printed.
    report GKX's setting with it.
 4. One code at a time on the GPU, the same GPU for both, `XLA_PYTHON_CLIENT_PREALLOCATE=false` for both.
 5. The same physical time span and averaging window (here t_GX = 1.9642 t_Velcro).
-6. Speed: wall seconds per unit of simulated time after the first printed interval (compilation and the first IMEX
+6. Speed: `python examples/compare_speed.py --pair ke|adiabatic` runs both codes one after the other and prints wall
+   seconds per a/v_ti from two run lengths, so start-up and compilation cancel. By hand: wall seconds per unit of
+   simulated time after the first printed interval (compilation and the first IMEX
    factors), from the printed elapsed times, so do not pass `--quiet`. Divide by (R/a)/√2 for seconds per a/v_ti
    (script below).
 7. A run that printed `WARNING: imex:` did not run the configured solver: say so next to its time, or rerun it with
