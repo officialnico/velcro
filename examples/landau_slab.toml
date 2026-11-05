@@ -1,0 +1,37 @@
+[grid]
+Nx = 4
+Lx = 40.0
+Ny = 7
+Nz = 8
+L = 48
+M = 1
+
+[geometry]
+kind = "slab"
+rho_star = 0.001
+
+[physics]
+omega_n = { value = 0.0 }
+omega_T = { value = 0.0 }
+tau = 5.0
+nu = 0.0
+nonlinear = false
+Ti_profile = false
+n_profile = false
+
+[numerics]
+hyper_x = 0.0
+hyper_z = 0.0
+hyper_v = 10.0
+krook_rate = 0.0
+krook_width = 0.0
+dt = 0.005
+
+[init]
+kind = "landau"
+amplitude = 1e-3
+ky_index = 1
+
+[run]
+t_end = 1.5
+diag_every = 0.02

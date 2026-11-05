@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use Velcro, please cite it as below."
+title: "Velcro: a GPU-native continuum gyrokinetic turbulence code in JAX"
+authors:
+  - family-names: Rodriguez
+    given-names: Nico
+version: 0.2.0
+date-released: 2026-11-05
+repository-code: "https://github.com/officialnico/velcro"

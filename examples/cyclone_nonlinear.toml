@@ -1,0 +1,43 @@
+# Cyclone Base Case, global s-α tokamak, adiabatic electrons, nonlinear.
+# Small-hardware demonstration size; increase grid.* for production.
+[grid]
+Nx = 64
+Lx = 60.0      # ρ_ref (r/R0 from 0.08 to 0.28)
+Ny = 48        # 16 k_y modes kept
+Nz = 24
+L = 16
+M = 6
+
+[geometry]
+kind = "s_alpha"
+rho_star = 0.00333    # 1/300
+r0 = 0.18
+q0 = 1.4
+shat = 0.8
+n0 = 5                # k_y,min ρ_i ≈ 0.13
+
+[physics]
+omega_n = { kind = "flattop", value = 2.2, width = 3.0, edge = 8.0 }
+omega_T = { kind = "flattop", value = 6.9, width = 3.0, edge = 8.0 }
+tau = 1.0
+collision_model = "dougherty"
+nu = 0.02
+nonlinear = true
+
+[numerics]
+hyper_x = 0.05
+hyper_z = 0.05
+hyper_v = 0.5
+krook_rate = 1.0
+krook_width = 0.12
+source_rate = 0.05
+cfl = 0.4
+
+[init]
+kind = "noise"
+amplitude = 1e-3
+
+[run]
+t_end = 200.0
+diag_every = 1.0
+output = "cyclone_nonlinear.npz"
