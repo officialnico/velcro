@@ -8,6 +8,7 @@ deck in chunks of simulated time and records the wall clock after every chunk. R
   and compilation. It is the end of the first chunk minus one steady chunk.
 * speed: wall seconds per a/v_ti over the chunks after the first (median).
 * reach: the simulated time it got to inside the budget.
+* a chart, compare_speed.png: progress (simulated time against wall time) and the heat fluxes against time.
 * accuracy: the ion (and, with kinetic electrons, electron) heat flux, averaged over the window both codes reached
   (from --window-start, default 20 a/v_ti, to the smaller of their final times), in GX/GKX gyro-Bohm units, with block
   standard errors, the difference and its z-score. The codes start from different noise, so turbulent fluxes agree only
@@ -151,6 +152,57 @@ def window_stats(t, q, t0, t1):
     return dict(mean=float(np.mean(q[w])), err=float(np.std(means, ddof=1) / np.sqrt(len(means))), blocks=len(means))
 
 
+COLORS = {"GKX": "#2563eb", "Velcro": "#ea580c"}   # checked for colour-blind separation (worst adjacent dE 31)
+
+
+def plot(results: dict, acc: dict, window, path: Path) -> Path | None:
+    """compare_speed.png: progress (simulated time against wall time), then Q_i and (when present) Q_e against time with
+    the comparison window shaded and the window means dashed."""
+    try:
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        import numpy as np
+    except ImportError:
+        print("matplotlib is not installed: no chart (pip install matplotlib)")
+        return None
+    has_qe = any(np.isfinite(np.asarray(r["Qe"], float)).any() for r in results.values())
+    n = 3 if has_qe else 2
+    fig, axes = plt.subplots(1, n, figsize=(5.2 * n, 4.0), constrained_layout=True)
+    ax = axes[0]
+    for code, r in results.items():
+        s = r["summary"]
+        w = [0.0, s["startup_s"]] + [row["wall_end"] for row in r["rows"]]      # flat during start-up: no progress
+        t = [0.0, 0.0] + [row["t_end"] for row in r["rows"]]
+        ax.plot(w, t, color=COLORS.get(code), lw=2, marker="o", ms=3, label=f"{code}: start-up {s['startup_s']:.0f} s, "
+                f"{s['s_per_a_vti']:.3g} s per a/v_ti")
+        ax.axvline(s["startup_s"], color=COLORS.get(code), lw=1, ls=":")
+    ax.set_xlabel("wall time, s")
+    ax.set_ylabel("simulated time t, a/v_ti")
+    ax.set_title("Progress (dotted: start-up)")
+    ax.grid(alpha=0.25)
+    ax.legend(fontsize=8, frameon=False, loc="upper left")
+    for ax, key, label in zip(axes[1:], ("Qi", "Qe"), ("Q_i", "Q_e")):
+        for code, r in results.items():
+            t, q = np.asarray(r["t"], float), np.asarray(r[key], float)
+            if np.isfinite(q).any():
+                ax.plot(t, q, color=COLORS.get(code), lw=1.5, label=code)
+                st = acc.get(label, {}).get(code)
+                if st:
+                    ax.hlines(st["mean"], window[0], window[1], color=COLORS.get(code), lw=1.5, ls="--")
+        if window[1] > window[0]:
+            ax.axvspan(window[0], window[1], color="0.5", alpha=0.12, lw=0)
+        d = acc.get(label, {}).get("velcro_minus_gkx")
+        ax.set_title(f"{label}, GX gyro-Bohm units" + (f"  (Velcro - GKX {100 * d['rel']:+.1f} %, z {d['z']:+.2f})" if d else ""),
+                     fontsize=10)
+        ax.set_xlabel("t, a/v_ti")
+        ax.grid(alpha=0.25)
+        ax.legend(fontsize=8, frameon=False, loc="upper left")
+    fig.savefig(path, dpi=130)
+    plt.close(fig)
+    return path
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--pair", choices=sorted(PAIRS), default="ke")
@@ -231,6 +283,11 @@ def main() -> None:
                 acc[label] = vals
         if not acc:
             print("  the common window is too short for a flux comparison (raise --budget or lower --window-start)")
+    if results:
+        win = (a.window_start, min(r["summary"]["t_reached"] for r in results.values()))
+        png = plot(results, acc, win, out / "compare_speed.png")
+        if png:
+            print(f"chart: {png}")
     summary = dict(gpu=gpu, gkx_deck=str(gkx_deck), velcro_config=str(velcro_cfg), budget_s=a.budget, chunk=a.chunk,
                    codes={c: r["summary"] for c, r in results.items()}, accuracy=acc)
     (out / "compare_speed.json").write_text(json.dumps(summary, indent=1))

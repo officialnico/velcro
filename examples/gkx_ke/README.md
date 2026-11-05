@@ -52,7 +52,8 @@ python -m velcro run examples/gkx_ke/velcro_cyclone.toml --output velcro_cyclone
 
 `python examples/compare_speed.py --pair ke` runs GKX for 3 minutes of wall time, then Velcro for 3 minutes, on the
 same GPU. It prints each code's start-up time, its wall seconds per a/v_ti once stepping, how far it got, and at the
-end both codes' heat fluxes over the window they both reached. `--pair adiabatic` does the same for
+end both codes' heat fluxes over the window they both reached, with a chart (`compare_speed.png`): progress against
+wall time and the heat fluxes against time. `--pair adiabatic` does the same for
 `examples/gkx_adiabatic`, and `--budget` changes the 3 minutes.
 
 To compare the two runs:
