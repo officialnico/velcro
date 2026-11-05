@@ -107,7 +107,8 @@ def run_lane(lane: Lane, args, gkx_deck: Path, velcro_cfg: Path, out: Path) -> N
     if args.demo:
         return demo_lane(lane, args)
     jf = out / f"{lane.code.lower()}.json"
-    cmd = [sys.executable, str(HERE / "compare_speed.py"), "--worker", lane.code.lower(), "--worker-out", str(jf),
+    py = args.gkx_python if lane.code == "GKX" else args.velcro_python
+    cmd = [py, str(HERE / "compare_speed.py"), "--worker", lane.code.lower(), "--worker-out", str(jf),
            "--budget", str(args.budget), "--chunk", str(args.chunk), "--gkx", str(gkx_deck), "--velcro", str(velcro_cfg)]
     with open(out / f"{lane.code.lower()}.log", "w") as log:
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=log, text=True, bufsize=1,
@@ -284,6 +285,8 @@ def main() -> None:
     ap.add_argument("--window-start", type=float, default=20.0, help="start of the flux window, a/v_ti")
     ap.add_argument("--demo", action="store_true", help="a synthetic race to try the display (no GKX/Velcro/GPU)")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--gkx-python", default=sys.executable, help="the Python that runs GKX (its own environment)")
+    ap.add_argument("--velcro-python", default=sys.executable, help="the Python that runs Velcro")
     args = ap.parse_args()
     console = Console()
     if args.track is None:

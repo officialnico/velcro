@@ -232,6 +232,8 @@ def main() -> None:
     ap.add_argument("--skip-gkx", action="store_true")
     ap.add_argument("--skip-velcro", action="store_true")
     ap.add_argument("--out", type=Path, default=None, help="where to write compare_speed.json (default: a new temp folder)")
+    ap.add_argument("--gkx-python", default=sys.executable, help="the Python that runs GKX (its own environment)")
+    ap.add_argument("--velcro-python", default=sys.executable, help="the Python that runs Velcro")
     ap.add_argument("--worker", choices=("gkx", "velcro"), help=argparse.SUPPRESS)
     ap.add_argument("--worker-out", type=Path, help=argparse.SUPPRESS)
     a = ap.parse_args()
@@ -253,7 +255,8 @@ def main() -> None:
             continue
         jf = out / f"{code}.json"
         print(f"\n{code}: running for up to {a.budget:g} s ...", flush=True)
-        cmd = [sys.executable, str(Path(__file__).resolve()), "--worker", code, "--worker-out", str(jf), "--budget", str(a.budget),
+        py = a.gkx_python if code == "gkx" else a.velcro_python
+        cmd = [py, str(Path(__file__).resolve()), "--worker", code, "--worker-out", str(jf), "--budget", str(a.budget),
                "--chunk", str(a.chunk), "--time-factor", str(a.time_factor), "--q-factor", str(a.q_factor),
                "--gkx", str(gkx_deck), "--velcro", str(velcro_cfg)]
         w0 = time.perf_counter()
