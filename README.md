@@ -4,7 +4,6 @@
 
 **A GPU-native, continuum gyrokinetic turbulence code in Python/JAX**, with a Laguerre–Hermite spectral velocity space
 and a radially global (real-space-in-`x`) domain. The same source runs on CPU and on NVIDIA or AMD GPUs through XLA.
-The design is described in [`docs/velcro_design_v3.2.md`](docs/velcro_design_v3.2.md).
 
 The banner is a Velcro run: saturated Cyclone-base-case ITG turbulence (R/L_T = 6.9, adiabatic electrons), the
 electrostatic potential at the outboard midplane in a 128 × 641 ρ box, radial direction vertical.
