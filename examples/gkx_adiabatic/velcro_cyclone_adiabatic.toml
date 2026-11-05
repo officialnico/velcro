@@ -1,0 +1,149 @@
+# GKX's adiabatic-electron Cyclone case as a native Velcro config, the twin of gkx_cyclone_adiabatic.toml in this folder:
+# kinetic ions, adiabatic (Boltzmann) electrons with tau 1, electrostatic, a/L_T 2.49 and a/L_n 0.8 (Velcro: omega_T 6.92,
+# omega_n 2.22); GKX's box (y0 28.2, L_x 176.25 rho_i, jtwist 5), 64 x 64 x 24, (L, M) = (8, 4) = GKX's (Nm, Nl).
+# Lawson integrator with an adaptive step (CFL 0.9). Velcro's time is R/v_t (t_GX = 1.9642 t); t_end 204 is t = 400 a/v_ti.
+# Run:  python -m velcro run examples/gkx_adiabatic/velcro_cyclone_adiabatic.toml --output velcro_cyclone_adiabatic.npz
+[grid]
+Nx = 64
+Lx = 124.58471760797342
+Ny = 64
+Nz = 24
+L = 8
+M = 4
+x_offset = 0.0
+
+[geometry]
+kind = "s_alpha"
+rho_star = 1e-05
+Lz_over_Lref = 1.0
+r0 = 0.18
+q0 = 1.4
+shat = 0.8
+alpha_mhd = 0.0
+gpar = "constant"
+n0 = 645
+a_over_R0 = 0.3616
+s0 = 0.25
+rhoc = 0.5
+shift = 0.0
+akappa = 1.0
+akappri = 0.0
+tri = 0.0
+tripri = 0.0
+betaprim = 0.0
+alpha = 0.0
+npol = 1
+vmec_cut = "none"
+vmec_x0_over_y0 = 1.0
+vmec_which_crossing = -1
+
+[physics]
+tau = 1.0
+Ti_profile = false
+n_profile = false
+collision_model = "dougherty"
+gs2_collision_terms = "default"
+gs2_const_v = false
+nu = 0.0
+collisions_on = "h"
+collision_flr = false
+nonlinear = true
+drive_gradB = false
+coriolis_mach = 0.0
+electrons = "adiabatic"
+beta = 0.0
+flutter = true
+bpar = false
+ei_collisions = false
+
+[physics.omega_n]
+kind = "constant"
+value = 2.222224
+width = 4.0
+edge = 10.0
+
+[physics.omega_T]
+kind = "constant"
+value = 6.916672200000001
+width = 4.0
+edge = 10.0
+
+[physics.electron]
+name = "electron"
+Z = -1.0
+mass = 0.00027
+temp = 1.0
+dens = 1.0
+nu = 0.0
+
+[numerics]
+bracket = "skew"
+node_gyro = "exact"
+parallel_form = "skew"
+hyper_x = 0.05
+hyper_z = 0.05
+hyper_ky = 0.0
+hyper_v = 0.0
+hyper_v_power = 4
+hyper_kz = 0.0
+hyper_kz_p = 6
+parallel_derivative = "fd4"
+kpar_floor = 0.0
+parallel_bc = "velcro"
+gx_damp_ends = 0.0
+gx_damp_width = 0.125
+gx_damp_amp = 0.0
+gx_hyper = 0.0
+gx_hyper_p = 2
+gx_hyperz = 0.0
+gx_hyperz_p = 6
+gx_hyper_ref_ny = 0
+gx_hermite_closure = false
+zonal_nyquist_project = false
+gx_nyquist = false
+x_dealias = false
+bracket_dx = "fd4"
+radial_drift = "fd4"
+krook_rate = 0.0
+krook_width = 0.0
+krook_zonal = true
+source_rate = 0.0
+integrator = "lawson"
+imex_scheme = "ark3"
+imex_lawson = true
+imex_cache = 2
+imex_solver = "auto"
+imex_factor_storage = "full"
+imex_dense_gib = 4.0
+imex_fallback = "lawson"
+imex_dt_levels = 0.85
+imex_dt_stick = 0.8
+imex_deduce_fi = true
+imex_nl_bound = "sum"
+imex_rate = "bound"
+imex_rate_krylov = 20
+imex_rate_floor = 0.32
+cfl = 0.9
+cfl_estimate = "legacy"
+dt_max = 0.1
+field_solver = "dense"
+lowrank_tol = 1e-08
+cg_tol = 1e-06
+cg_maxiter = 50
+steps_per_dt_update = 20
+
+[init]
+kind = "noise"
+amplitude = 0.001
+seed = 0
+ky_index = 1
+kx_index = 0
+l = 0
+m = 0
+z_profile = "ballooning"
+
+[run]
+t_end = 204.0
+diag_every = 1.0
+precision = "fp32"
+max_steps = 10000000

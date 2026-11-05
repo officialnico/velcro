@@ -11,8 +11,7 @@ GKX's own benchmark of the case (`gkx_cyclone_adiabatic.toml`, unchanged):
 gkx examples/gkx_adiabatic/gkx_cyclone_adiabatic.toml
 ```
 
-Velcro's twin, `velcro_cyclone_adiabatic.toml` (the same case through Velcro's GX-deck translation), lands in the next
-commit. Once it is here:
+Velcro's twin, `velcro_cyclone_adiabatic.toml`, is the same case through Velcro's GX-deck translation:
 
 ```
 python -m velcro run examples/gkx_adiabatic/velcro_cyclone_adiabatic.toml --output velcro_cyclone_adiabatic.npz
