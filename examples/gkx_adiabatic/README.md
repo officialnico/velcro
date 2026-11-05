@@ -24,4 +24,5 @@ Both files use each code's fastest documented setting:
 - **GKX:** `rk4-pi`, its error-controlled RK4 and its default for nonlinear adiabatic runs.
 - **Velcro:** Lawson at CFL 1.1.
 
-Neither has been run end to end yet. `python examples/compare_speed.py --pair adiabatic` times them side by side.
+Neither has been run end to end yet. `python examples/compare_speed.py --pair adiabatic` runs them one after the other, 3 minutes each, and reports
+start-up, speed and heat flux.

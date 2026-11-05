@@ -50,9 +50,10 @@ python -m velcro run examples/gkx_ke/velcro_cyclone.toml --output velcro_cyclone
 | noise seed | 22 | 0: compare time averages, not trajectories |
 | units | a/v_ti, ρ_i, GX's gyro-Bohm flux | R/v_t, ρ_ref = √2 ρ_i; t_GX = 1.9642 t, Q_GX = 0.3666 Q |
 
-`python examples/compare_speed.py --pair ke` runs GKX, then Velcro, each to two lengths, and prints both codes'
-wall seconds per a/v_ti. Start-up and compilation cancel in the difference. `--pair adiabatic` does the same for
-`examples/gkx_adiabatic`.
+`python examples/compare_speed.py --pair ke` runs GKX for 3 minutes of wall time, then Velcro for 3 minutes, on the
+same GPU. It prints each code's start-up time, its wall seconds per a/v_ti once stepping, how far it got, and at the
+end both codes' heat fluxes over the window they both reached. `--pair adiabatic` does the same for
+`examples/gkx_adiabatic`, and `--budget` changes the 3 minutes.
 
 To compare the two runs:
 - the growth rate in the linear phase;
