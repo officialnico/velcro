@@ -63,3 +63,5 @@ To compare the two runs:
 
 E×B flow shear is not part of it: GKX 2.8.1 has no flow-shear option. Velcro's twin, `velcro_cyclone_coll_em.toml`,
 lands in the next commit.
+
+This variant has not been run end to end yet: on a 16 GB GPU, GKX stopped while setting up its implicit step for it.
