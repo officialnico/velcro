@@ -31,3 +31,26 @@ python -m velcro run examples/gkx_ke/velcro_fast.json --output fast.npz
 - The fixed step is set for this case's box. For other cases, start from the adaptive config.
 - Velcro's time unit is R/v_t, and t_GX = 1.9642 t_Velcro. The configs run to t = 204 (t ≈ 400 a/v_ti); `--t-end` changes it.
 - The output file holds the diagnostics per unit of time. The heat fluxes are `Qi_es`, `Qi_em`, `Qe_es`, `Qe_em`, … in Velcro's gyro-Bohm units; on this case GX's/GKX's Q is 0.3666 × Velcro's.
+
+## Compare with GKX
+
+`gkx_cyclone.toml` is GKX's deck of this case, and `velcro_cyclone.toml` is Velcro's. The Velcro file is
+`velcro_fast.json` written as TOML.
+
+```
+gkx examples/gkx_ke/gkx_cyclone.toml
+python -m velcro run examples/gkx_ke/velcro_cyclone.toml --output velcro_cyclone.npz
+```
+
+| | GKX (`gkx_cyclone.toml`) | Velcro (`velcro_cyclone.toml`) |
+|---|---|---|
+| physics, box, grid, moments | the same | the same |
+| time step | `imex-ars3`, fixed dt 0.035 a/v_ti | IMEX ARK3, fixed 1/79 R/v_t (0.0249 a/v_ti) |
+| run length | t_max = 400 a/v_ti | t_end = 204 R/v_t (400.7 a/v_ti) |
+| noise seed | 22 | 0: compare time averages, not trajectories |
+| units | a/v_ti, ρ_i, GX's gyro-Bohm flux | R/v_t, ρ_ref = √2 ρ_i; t_GX = 1.9642 t, Q_GX = 0.3666 Q |
+
+To compare the two runs:
+- the growth rate in the linear phase;
+- ⟨Q_i⟩ and ⟨Q_e⟩ over the same saturated window, for example t ≥ 150 a/v_ti;
+- wall seconds per a/v_ti after the first (compile) interval, on the same GPU, one code at a time.

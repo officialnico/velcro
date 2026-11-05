@@ -1,0 +1,163 @@
+# GKX's kinetic-electron Cyclone example as a native Velcro config, the twin of gkx_cyclone.toml in this folder:
+# kinetic ions and electrons (m_e/m_i 2.7e-4), a/L_T 2.49 and a/L_n 0.8 for both (Velcro: omega_T 6.92, omega_n 2.22),
+# beta 1e-4 with A_par, no collisions; GKX's box (y0 28.2, L_x 176.25 rho_i, jtwist 5), 64 x 64 x 24, (L, M) = (16, 4)
+# = GKX's (Nm, Nl). The same settings as velcro_fast.json: a fixed step of 1/79 R/v_t (0.0249 a/v_ti).
+# Velcro's time is R/v_t (t_GX = 1.9642 t); t_end 204 is t = 400 a/v_ti. Run:
+#   python -m velcro run examples/gkx_ke/velcro_cyclone.toml --output velcro_cyclone.npz
+[geometry]
+Lz_over_Lref = 1.0
+a_over_R0 = 0.3616
+akappa = 1.0
+akappri = 0.0
+alpha = 0.0
+alpha_mhd = 0.0
+betaprim = 0.0
+gpar = "constant"
+kind = "s_alpha"
+n0 = 645
+npol = 1
+q0 = 1.4
+r0 = 0.18
+rho_star = 1e-05
+rhoc = 0.5
+s0 = 0.25
+shat = 0.8
+shift = 0.0
+tri = 0.0
+tripri = 0.0
+vmec_cut = "none"
+vmec_which_crossing = -1
+vmec_x0_over_y0 = 1.0
+
+[grid]
+L = 16
+Lx = 124.58471760797342
+M = 4
+Nx = 64
+Ny = 64
+Nz = 24
+x_offset = 0.0
+
+[init]
+amplitude = 0.001
+kind = "noise"
+kx_index = 0
+ky_index = 1
+l = 0
+m = 0
+seed = 0
+z_profile = "ballooning"
+
+[numerics]
+bracket = "skew"
+bracket_dx = "fourier"
+cfl = 0.9
+cfl_estimate = "legacy"
+cg_maxiter = 50
+cg_tol = 1e-06
+dt = 0.012658227848101266
+dt_max = 0.1
+field_solver = "fft"
+gx_damp_amp = 0.0
+gx_damp_ends = 0.1964187074644368
+gx_damp_width = 0.125
+gx_hermite_closure = true
+gx_hyper = 0.0982093537322184
+gx_hyper_p = 2
+gx_hyper_ref_ny = 0
+gx_hyperz = 0.0
+gx_hyperz_p = 6
+gx_nyquist = true
+hyper_ky = 0.0
+hyper_kz = 1.0
+hyper_kz_p = 4
+hyper_v = 0.0
+hyper_v_power = 4
+hyper_x = 0.0
+hyper_z = 0.0
+imex_cache = 2
+imex_deduce_fi = true
+imex_dense_gib = 4.0
+imex_dt_levels = 0.85
+imex_dt_stick = 0.8
+imex_factor_storage = "full"
+imex_fallback = "lawson"
+imex_lawson = true
+imex_nl_bound = "sum"
+imex_rate = "jacobian"
+imex_rate_floor = 0.32
+imex_rate_krylov = 20
+imex_scheme = "ark3"
+imex_solver = "auto"
+integrator = "imex"
+kpar_floor = 0.0
+krook_rate = 0.0
+krook_width = 0.0
+krook_zonal = true
+lowrank_tol = 1e-08
+node_gyro = "exact"
+parallel_bc = "gx_chains"
+parallel_derivative = "fourier"
+parallel_form = "skew"
+radial_drift = "fourier"
+source_rate = 0.0
+steps_per_dt_update = 20
+x_dealias = true
+zonal_nyquist_project = true
+
+[physics]
+Ti_profile = false
+beta = 0.0001
+bpar = false
+collision_flr = false
+collision_model = "dougherty"
+collisions_on = "h"
+coriolis_mach = 0.0
+drive_gradB = false
+ei_collisions = false
+electrons = "kinetic"
+flutter = true
+gs2_collision_terms = "default"
+gs2_const_v = false
+n_profile = false
+nonlinear = true
+nu = 0.0
+tau = 1.0
+
+[physics.electron]
+Z = -1.0
+dens = 1.0
+mass = 0.00027
+name = "electron"
+nu = 0.0
+temp = 1.0
+
+[physics.electron.omega_T]
+edge = 10.0
+kind = "constant"
+value = 6.916672200000001
+width = 4.0
+
+[physics.electron.omega_n]
+edge = 10.0
+kind = "constant"
+value = 2.222224
+width = 4.0
+
+[physics.omega_T]
+edge = 10.0
+kind = "constant"
+value = 6.916672200000001
+width = 4.0
+
+[physics.omega_n]
+edge = 10.0
+kind = "constant"
+value = 2.222224
+width = 4.0
+
+[run]
+diag_every = 1.0
+max_steps = 10000000
+precision = "fp32"
+t_end = 204.0

@@ -133,6 +133,9 @@ python -m velcro run examples/gkx_ke/velcro_adaptive.json --output adaptive.npz 
 | `velcro_lowmem.json` | the same fixed step | `"thomas"`: block-Thomas, L times less factor memory than dense | when the dense factors do not fit |
 | `velcro_adaptive.json` | `null`: adaptive step from an estimate of the fastest explicit rate, `numerics.cfl` 0.9 | `"auto"` | the general default |
 
+`gkx_cyclone.toml` (GKX's deck of the case) and `velcro_cyclone.toml` (Velcro's; `velcro_fast.json` as TOML) are the pair
+to run side by side; `examples/gkx_ke/README.md` lists what to compare.
+
 The fixed step is set for this case's box only, and a fixed `numerics.dt` skips the step control (`Simulation.run`).
 Start every other case from `velcro_adaptive.json`.
 
