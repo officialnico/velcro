@@ -94,7 +94,7 @@ is in [`examples/gkx_ke/`](examples/gkx_ke/). Practical settings:
 Perpendicular lengths in ρ_ref = v_t/Ω (v_t = √(2T/m)), parallel lengths in L_ref, time in L_ref/v_t,
 φ̂ = (eφ/T)(L_ref/ρ_ref), Ĝ = (δf/F₀)(L_ref/ρ_ref); ρ* = ρ_ref/L_ref is an explicit input. Gradients
 ω_n = −L_ref ∂ ln n/∂x, ω_T = −L_ref ∂ ln T/∂x (Cyclone: 2.2 and 6.9 with L_ref = R₀). Against GX:
-t[a/v_ti] = 1.97 t[R/v_t]; k_xρ_i = k_xρ_ref/√2; φ_GX = 0.509 φ.
+t[a/v_ti] = 1.964 t[R/v_t]; k_xρ_i = k_xρ_ref/√2; φ_GX = 0.509 φ.
 
 ## Not in this release
 
