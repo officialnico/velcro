@@ -99,8 +99,6 @@ t[a/v_ti] = 1.964 t[R/v_t]; k_xρ_i = k_xρ_ref/√2; φ_GX = 0.509 φ.
 ## Not in this release
 
 - multi-GPU;
-- end-to-end differentiability with respect to geometry (geometry and operators are built in NumPy; the right-hand
-  side is traced);
 - a validated global (profile + source) benchmark;
 - a tested nonlinear stellarator run;
 - nonlinear electromagnetic validation at β beyond 10⁻³;
